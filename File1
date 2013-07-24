@@ -1,0 +1,38 @@
+#! /usr/bin/env python3.3
+import os
+import re
+def search_file():
+  #patternString = '; [...] [...]'
+	#prog = re.compile(patternString)	
+	DocList = os.listdir(os.getcwd())
+	newfile = "filter.log"
+	f_new = open(newfile,'w')
+	for doc in DocList:
+		if doc[-3:] == '.ll':
+			f_new.write(doc)
+			f_new.write('\n')	
+			#for count,line in enumerate(open(doc,'rU')):
+			#	if prog.match(line) != None:				
+			#		new_f.write(line)
+			#print(doc)
+			for eachline in open(doc,'r'):
+				if re.search(";\s*\[(ARM|THUMB).*_",eachline):
+					#print(eachline)
+					f_new.write(eachline)
+	f_new.close()
+
+def test():
+	patternString = '/^...;/'
+	for count,line in enumerate(open('libmootor.so_24.ll','rU')):
+		if count == 592:
+			print(line)
+			result = re.match(patternString, line)
+			print (result)
+		
+		
+def main():
+	search_file()
+	
+if __name__ == '__main__':
+	main()
+
