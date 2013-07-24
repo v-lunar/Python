@@ -1,0 +1,38 @@
+#! /usr/bin/env python3.3
+import os
+import shutil
+import re
+
+def SearchFile():
+    FilterList = [10101120106,10101200803,10101300104,10104010214,
+                  10104090110,10104240316,10104321305,10104390611,
+                  10104420202,10104510305,10106430703,10110032201]
+    DirList = os.listdir(os.getcwd())
+    #print(AllList)
+    for dir in DirList:
+        if os.path.isdir(dir):        
+            AllList = os.listdir(os.path.join(os.getcwd(),dir))
+            
+            DestList = []
+            for eachStr in AllList:
+                m = re.search('\d+\.',eachStr)
+                if m :
+                    index = int(eachStr[m.start():m.end()-1])
+                    if index in FilterList:
+                        DestList.append(eachStr)
+                        
+            print(DestList)
+            newPath = "E:\\testResult\\" + dir
+            if os.path.exists(newPath):
+                shutil.rmtree(newPath)
+            os.makedirs(newPath)
+            for file in DestList:
+                shutil.copy(os.path.join(os.getcwd(),dir,file), newPath)
+
+def main():
+    SearchFile()
+
+if __name__ == '__main__':
+    main()
+        
+    
